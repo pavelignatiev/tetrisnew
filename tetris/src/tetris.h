@@ -1,6 +1,8 @@
 #ifndef TETRIS_H
 #define TETRIS_H
 
+#define TET_TICKS_START 30
+
 
 typedef struct TetBlock {
     int b;

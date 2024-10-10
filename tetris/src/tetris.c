@@ -44,8 +44,13 @@ TetGame * tetg = (TetGame*) malloc(sizeof(Tetgame));
 tetg->field = createTetField(field_width, field_height);
 tetg->figurest = createTetFiguresT(figures_size, count,figures_template);
 
+tetg->ticks = TET_TICKS_START;
+tetg->ticks_left = TET_TICKS_START;
+tetg->score = 0;
+tetg->playing = TET_PLAYING;
+
 return tetg;
-}
+};
 
 void freeTetGame(TetGame * tetg) {
     if (tetg) {
@@ -163,6 +168,19 @@ void dropNewFigure(TetGame * tetg) {
     tetg->figure = t;
 }
 
+TetFigure * rotTetFigure(TetGame * tetg) {
+    TetFigure * t = createTetFigure(tetg);
+    TetFigure * told = tetg->figure;
+    t-> = told->x;
+    t->y = told->y;
+    for(int i =0; i<t->sizel i++) {
+        for(int j=0; j<t->size; j++) {
+            t->blocks[i*t->size+j].b = told->blocks[j*t->size+(t->size-1-i)].b;
+        }
+    }
+        
+}
+
 //TetField* tetf = (TetField*) malloc(sizeof(TetField));
 //}
 void calculateTet(TetGame tetg) {
@@ -202,9 +220,9 @@ void calculateTet(TetGame tetg) {
             tetg->figure = t;
             if (collisionTet(tetg)) {
                 tetg->figure = told;
-                freeFigure(t);
+                freeTetFigure(t);
             } else {
-                freeFigure(told);
+                freeTetFigure(told);
             }
             }
             break;
