@@ -1,0 +1,87 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "tetris.h"
+#include <time.h>
+
+TetBlock tet_templates[] = {
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+
+    0,0,0,0,0,
+    0,0,1,0,0,
+    0,1,1,1,0,
+    0,0,0,0,0,
+    0,0,0,0,0,
+
+    0,0,0,0,0,
+    0,0,1,1,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,0,0,0,
+
+    0,0,0,0,0,
+    0,1,1,0,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,0,0,0,
+
+    0,0,0,0,0,
+    0,0,1,1,0,
+    0,1,1,0,0,
+    0,0,0,0,0,
+    0,0,0,0,0,
+
+    0,0,0,0,0,
+    0,0,1,1,0,
+    0,1,1,0,0,
+    0,0,0,0,0,
+    0,0,0,0,0
+};
+
+void printTetGame(TetGame* tetg) {
+    TetField* tf = tetg->field;
+    TetFigure* t = tetg->figure;
+
+    for(int i=0; i<tf->height; i++) {
+        for(int j=0;j<tf->width; j++) {
+            int sym = 0;
+            if(tf->blocks[i*tf->width+j].b != 0)
+                sym = 1;
+                //printf("%d", l);
+            else {
+                int x = j - t->x;
+                int y = i - t->y;
+                if (x >=0 && x < t->size && y >=0 && y <t->size)
+                    if (t->blocks[y*t->size+x].b != 0)
+                        sym = 1;
+            }
+            printf("%d", sym);
+        }
+    }
+    fflush(stdout);
+}
+
+int main(int argc, char *argv[]) {
+    TetGame *tetg = createTetGame(34, 30, 5, 6, tet_templates);
+    TetPlayer player;
+    player.action = TET_PLAYER_NOP;
+    tetg->player = &player;
+    dropNewFigure(tetg);
+
+    while (tetg->playing != TET_GAMEOVER) {
+//clock_gettime(CLOCK_MONOTONIC, &sp_start);
+        calculateTet(tetg);
+        printTetGame(tetg);
+  //      clock_gettime(CLOCK_MONOTONIC, &sp_end);
+    //    if(sp_end.tv_sec - sp_start.tv_sec <= 0 &&
+      //      ts2.tv_nsec = 33000000 - (sp_end.tv_nsec - sp_start.tv_nsec)) > 0)
+        //    nanosleep(&ts2, &ts1);
+    }
+
+    freeTetGame(tetg);
+    printf("Tetris!\n\n");
+    return 0;
+}
