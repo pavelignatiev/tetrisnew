@@ -17,3 +17,6 @@ $(PREF_OBJ)%.o : $(PREF_SRC)%.c
 
 clean :
 	rm $(TARTGET) $(OBJ)
+
+
+.PHONY: clean $(TARGET)
