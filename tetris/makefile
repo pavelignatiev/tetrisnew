@@ -9,7 +9,7 @@ OBJ = $(patsubst $(PREF_SRC)%.c, $(PREF_OBJ)%.o, $(SRC))
 
 
 $(TARGET) : $(OBJ)
-	$(CC) $(OBJ) -o $(TARGET)
+	$(CC) $(OBJ) -lncurses -o $(TARGET)
 
 $(PREF_OBJ)%.o : $(PREF_SRC)%.c
 	mkdir -p $(dir $@)

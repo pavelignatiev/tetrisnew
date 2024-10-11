@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "tetris.h"
 #include <time.h>
+#include <ncurses.h>
+
+#include "tetris.h"
 
 TetBlock tet_templates[] = {
     0,0,1,0,0,
@@ -65,20 +67,24 @@ void printTetGame(TetGame* tetg) {
 }
 
 int main(int argc, char *argv[]) {
-    TetGame *tetg = createTetGame(34, 30, 5, 6, tet_templates);
+
+    struct timespec sp_start, sp_end, ts1, ts2;
+
+    TetGame *tetg = createTetGame(44, 30, 5, 6, tet_templates);
     TetPlayer player;
     player.action = TET_PLAYER_NOP;
     tetg->player = &player;
     dropNewFigure(tetg);
 
     while (tetg->playing != TET_GAMEOVER) {
-//clock_gettime(CLOCK_MONOTONIC, &sp_start);
+        
+        clock_gettime(CLOCK_MONOTONIC, &sp_start);
         calculateTet(tetg);
         printTetGame(tetg);
-  //      clock_gettime(CLOCK_MONOTONIC, &sp_end);
-    //    if(sp_end.tv_sec - sp_start.tv_sec <= 0 &&
-      //      ts2.tv_nsec = 33000000 - (sp_end.tv_nsec - sp_start.tv_nsec)) > 0)
-        //    nanosleep(&ts2, &ts1);
+        clock_gettime(CLOCK_MONOTONIC, &sp_end);
+        if(sp_end.tv_sec - sp_start.tv_sec <= 0 &&
+            (ts2.tv_nsec = 33000000 - (sp_end.tv_nsec - sp_start.tv_nsec)) > 0);
+            nanosleep(&ts2, &ts1);
     }
 
     freeTetGame(tetg);
